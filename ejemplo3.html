@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+	<link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.1/dist/leaflet.css" />
+
+	
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet"/>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.EasyButton/2.4.0/easy-button.css" />
+
+
+	<link rel="stylesheet" href="https://leaflet.github.io/Leaflet.draw/src/leaflet.draw.css"/>
+	
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<script src="https://npmcdn.com/jquery@3.0.0/dist/jquery.min.js"></script>
+	<script src="https://npmcdn.com/leaflet@1.0.0-rc.1/dist/leaflet.js"></script>
+	
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.EasyButton/2.4.0/easy-button.js"></script>
+	<script src="posición/src/L.Control.Locate.js" ></script>
+	<script src="https://kit.fontawesome.com/02eb88b373.js" crossorigin="anonymous"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+	<script src="print/dist/bundle.js"></script>
+	<title>TALLER </title>
+	
+	
+	
+	<style>
+	*{	
+		padding: 0% ;
+		margin: 0% 0%;		
+	}
+	html, body{
+	height:100% ;
+	width:100% vw;
+	}
+	
+	
+	#map{
+
+	width:60%;
+	height:75%;}
+
+
+	</style>
+	
+	
+	
+	</head>	
+	<body>
+		<div>
+			
+				 <h1>TALLER </h1>
+				 <P>JUAN CAMILO HERNANDEZ C.</P></div>
+		
+			</div>
+		</div>
+
+			<div id="map" style="z-index:0">
+				
+			
+			</div>
+
+
+	</body>
+	
+	
+	<script>
+	
+	
+	
+	var map = L.map('map',
+	{
+		zoom: 8
+	}).setView([3.40625,-76.52086], 12.4);           ////SE INSERTA UN MAPA EN EL DIV "map" con coordenadas 3.4,-76.52	
+	
+	var mapabase = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+		{
+			maxZoom: 15,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		});
+	
+	var grises = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', 
+		{
+			maxZoom: 18,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		})
+	
+
+	mapabase.addTo(map);
+	
+	L.control.scale({position:'bottomleft'}).addTo(map)	;
+	L.control.layers({mapabase,grises}).addTo(map);
+
+
+	var drawnItems = new L.FeatureGroup();
+
+			var drawControl = new L.Control.Draw({
+				position: 'topleft',
+				edit: {
+					featureGroup: drawnItems,
+					remove: true,
+					edit: false,
+				},
+				draw: {
+					circlemarker: true,
+					circle:false,
+					rectangle:false,
+					marker:true,
+				}
+			});
+			map.addControl(drawControl);
+			
+	map.on(L.Draw.Event.CREATED, function (e) {
+			    var type = e.layerType,
+			        layer = e.layer;
+
+			    if (type === 'marker') {
+			        layer.bindPopup('A popup!');
+			    }
+
+			    drawnItems.addLayer(layer);
+				map.addLayer(drawnItems);
+			});
+
+//AGREGANDO MARCADORES Y PUNTOS
+			var marker = L.marker([3.40, -76.52]).addTo(map);
+
+
+	var printer = L.easyPrint({
+      		tileLayer: mapabase,
+      		sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
+      		filename: 'myMap',
+      		exportOnly: true,
+      		hideControlContainer: true
+		}).addTo(map);
+
+		function manualPrint () {
+			printer.printMap('CurrentSize', 'MyManualPrint')
+		}
+
+	</script>
+	
+</html> 
