@@ -153,7 +153,8 @@
 			    drawnItems.addLayer(layer);
 				map.addLayer(drawnItems);
 			});
-
+	//plugin imprimir
+L.control.browserPrint().addTo(map);
 
 	var printer = L.easyPrint({
       		tileLayer: mapabase,
@@ -166,8 +167,124 @@
 		function manualPrint () {
 			printer.printMap('CurrentSize', 'MyManualPrint')
 		}
-//plugin imprimir
-L.control.browserPrint().addTo(map);
+// añadiendo geojson 
+var geojsonFeature = [{
+    "type": "Feature",
+	"properties": {
+        "popupContent": "1"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -76.503375,3.445577778]
+    }
+	}, {
+    "type": "Feature",
+    "properties": {
+        "popupContent": "2"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -76.509754,3.445577778]
+    }
+	}, {
+    "type": "Feature",
+    "properties": {
+        "popupContent": "3"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -76.508354,3.445897778]
+    }
+	},{
+    "type": "Feature",
+    "properties": {
+        "popupContent": "4"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -76.508635,3.44486352]
+    }
+	},{
+    "type": "Feature",
+    "properties": {
+        "popupContent": "5"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -76.5049867,3.44423874]
+    }
+	},{
+    "type": "Feature",
+    "properties": {
+        "popupContent": "6"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -76.5065987,3.4497864523]
+    }
+	},{
+    "type": "Feature",
+    "properties": {
+        "popupContent": "7"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -76.5123659,3.4542789]
+    }
+	},{
+    "type": "Feature",
+    "properties": {
+        "popupContent": "8"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -76.5103659,3.4522789]
+    }
+	},{
+    "type": "Feature",
+    "properties": {
+        "popupContent": "9"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -76.5073659,3.4482789]
+    }
+	},{
+    "type": "Feature",
+    "properties": {
+        "popupContent": "10"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [ -76.5173659,3.4422789]
+    }
+	}];		
+	
+	var marck = L.icon({
+				iconUrl: 'iconos/restaurante.png',
+				iconSize:     [37, 37],
+				iconAnchor:   [13, 27],
+				popupAnchor:  [-5,-20] 
+			});
+	var estilo = 
+		{
+			radius: 7,
+			fillColor: "yellow",
+			color: "black",
+			weight: 1,
+			opacity: 1,
+			fillOpacity: 1,
+		};			
+	var marcador = L.geoJSON(geojsonFeature,{pointToLayer:function(feature, latlng) 
+	{return L.circleMarker(latlng, estilo)},onEachFeature: onEachFeature});
+	var marcador1 = L.geoJSON(geojsonFeature, {pointToLayer: function (feature, latlng) 
+	{return L.marker(latlng, {icon: marck})},onEachFeature: onEachFeature});
+    
+	function añadir() 
+		{
+		mymap.removeLayer(marcador1);
+		marcador.addTo(mymap);
+	  	};	
 	</script>
 	
 </html> 
