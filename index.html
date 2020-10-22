@@ -78,23 +78,36 @@
 		zoom: 8
 	}).setView([3.40625,-76.52086], 12.4);           ////SE INSERTA UN MAPA EN EL DIV "map" con coordenadas 3.4,-76.52	
 	
+
+
 	var mapabase = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
 		{
 			maxZoom: 15,
 			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-		});
+		}),
 	
-	var grises = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', 
+		grises = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', 
 		{
 			maxZoom: 18,
 			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-		})
+		});
 	
 
 	mapabase.addTo(map);
-	
+
+
+	//AGREGANDO MARCADORES Y Poligonos
+
+	var marker = L.tileLayer( L.marker([3.40, -76.52]).addTo(map)) ;
+	var polygon = L.tileLayer(L.polygon([[3.40, -76.52],[3.42, -76.53],[3.48, -76.48]]).addTo(map));
+	var geometrias = L.layerGroup([marker,polygon]);
+
+	var overlayMaps = {
+		"geometrias":geometrias};
+
+
 	L.control.scale({position:'bottomleft'}).addTo(map)	;
-	L.control.layers({mapabase,grises}).addTo(map);
+	L.control.layers({mapabase,grises,}).addTo(map);
 
 
 	var drawnItems = new L.FeatureGroup();
@@ -126,9 +139,6 @@
 			    drawnItems.addLayer(layer);
 				map.addLayer(drawnItems);
 			});
-
-//AGREGANDO MARCADORES Y PUNTOS
-			var marker = L.marker([3.40, -76.52]).addTo(map);
 
 
 	var printer = L.easyPrint({
