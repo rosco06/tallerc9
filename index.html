@@ -25,6 +25,7 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
 	<script src="print/dist/bundle.js"></script>
+	<script src="print/leaflet.browser.print.min.js"></script>
 	<title>TALLER </title>
 	
 	
@@ -165,7 +166,8 @@
 		function manualPrint () {
 			printer.printMap('CurrentSize', 'MyManualPrint')
 		}
-
+//plugin imprimir
+L.control.browserPrint().addTo(map);
 	</script>
 	
 </html> 
